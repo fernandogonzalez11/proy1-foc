@@ -1,0 +1,9 @@
+# ignorar todo
+*
+
+# excepto el gitignore
+!.gitignore
+# el readme
+!README.md
+# y cualquier archivo verilog
+!*.v
