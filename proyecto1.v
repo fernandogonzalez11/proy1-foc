@@ -88,9 +88,9 @@ module FullAdder_testbench;
     reg [31:0] A, B;
     reg c_in;
     wire [31:0] S;
-    wire c_out, sig_N, sig_Z, sig_C, sig_O;
+    wire c_out, sig_Z, sig_O;
 
-    FullAdder_32b F0(A, B, c_in, S, c_out, sig_N, sig_Z, sig_C, sig_O);
+    FullAdder_32b F0(A, B, c_in, S, c_out, sig_Z, sig_O);
 
     initial begin
         $dumpfile("fulladder-dump.vcd");
