@@ -21,11 +21,11 @@ señal Z: ¿el resultado fue cero?
 señal C: ¿el resultado produjo un acarreo no nulo?
 señal O: ¿el resultado produjo un overflow?
 */
-module FullAdder_32b (a, b, c_in, s, c_out, sig_N, sig_Z, sig_C, sig_O);
+module FullAdder_32b (a, b, c_in, s, c_out, sig_Z, sig_O);
     input [31:0] a, b;
     input c_in;
     output [31:0] s;
-    output c_out, sig_N, sig_Z, sig_C, sig_O;
+    output c_out, sig_Z, sig_C, sig_O;
 
     wire c30, c29, c28, c27, c26, c25, c24, c23, c22, c21, c20, c19, c18, c17, c16,
          c15, c14, c13, c12, c11, c10, c09, c08, c07, c06, c05, c04, c03, c02, c01, c00;
@@ -63,12 +63,14 @@ module FullAdder_32b (a, b, c_in, s, c_out, sig_N, sig_Z, sig_C, sig_O);
     FullAdder F30(a[30], b[30], c29, c30, s[30]);
     FullAdder F31(a[31], b[31], c30, c_out, s[31]);
 
-    // si se tomase s como un número con signo complemento 2,
-    // su bit de más a la izquierda sería 1 si fuese negativo
-    assign sig_N = s[31];
+    // note lo siguiente:
 
-    // la existencia (o no) de un acarreo es simplemente el mismo
-    assign sig_C = c_out;
+    // si se tomase s como un número con signo complemento 2,
+    // su bit de más a la izquierda sería 1 si fuese negativo, 0 si fuese positivo
+    // por tanto, la señal N es equivalente al bit más a la izquierda de s (s[31])
+
+    // asimismo, la existencia (o no) de un acarreo es equivalente al mismo bit de acarreo
+    // por tanto, la señal C es equivalente a c_out
 
     // para comprobar que el resultado es cero, se tiene que todos los bits de resultado deben ser 0
     // a' * b' * c' * ... => (a + b + c + ...)' (NOR)
@@ -79,7 +81,6 @@ module FullAdder_32b (a, b, c_in, s, c_out, sig_N, sig_Z, sig_C, sig_O);
     );
 
     // TODO: O_out
-    assign sig_O = 1;
 
 endmodule
 
