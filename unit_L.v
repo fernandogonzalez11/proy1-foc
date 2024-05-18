@@ -297,7 +297,7 @@ module testbench;
 
         // OR
         S=10;
-        #0; // 1ns delay
+        #1; // 1ns delay
         $display("S = %b(OR), a = %b, b = %b, out = %b", S, a, b, out);
 
         // XOR
