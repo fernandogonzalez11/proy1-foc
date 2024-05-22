@@ -73,16 +73,32 @@ module FullAdder_32b (a, b, c_in, s, c_out, sig_Z, sig_O);
     // por tanto, la señal C es equivalente a c_out
 
     // para comprobar que el resultado es cero, se tiene que todos los bits de resultado deben ser 0
-    // a' * b' * c' * ... => (a + b + c + ...)' (NOR)
+    // a' * b' * c' * ...* c_out' => (a + b + c + ... + c_out)' (NOR)
     nor #(3) g_nor1(
         sig_Z,
         s[31], s[30], s[29], s[28], s[27], s[26], s[25], s[26], s[27], s[26], s[25], s[24], s[23], s[22], s[21], s[20], s[19],
-        s[18], s[17], s[16], s[15], s[14], s[13], s[12], s[11], s[10], s[9], s[8], s[7], s[6], s[5], s[4], s[3], s[2], s[1], s[0]
+        s[18], s[17], s[16], s[15], s[14], s[13], s[12], s[11], s[10], s[9], s[8], s[7], s[6], s[5], s[4], s[3], s[2], s[1], s[0], c_out
     );
 
     // TODO: O_out
 
 endmodule
+
+module overflowR(a,b,s,sig_O);
+    input [31:0] a, b, s;
+    output sig_O;
+    wire c00,c01,c02,c03,c04;
+    //si a[31] y b[31] son 1, ambos A y B son negativos. Si se suman y da positivo (s[31] = 0) entonces hay overflow
+    //si a[31] y b[31] son 0, ambos A y B son positivos. Si se suman y da negativo (s[31] = 1) entonces hay overflow
+    //(a[31]*b[31]*s[31]')+(a[31]'*b[31]'*s[31])
+    not #(1) g_not2 (c00,s[31]);
+    and #(2) g_and4 (c01,a[31],b[31],c00);
+    not #(1) g_not3 (c02,a[31]);
+    not #(1) g_not4 (c03,b[31]);
+    and #(2) g_and5 (c04,s[31],c02,c03);
+    or  #(2) g_or2  (sig_O,c04,c01);
+endmodule
+
 
 module FullAdder_testbench;
     reg [31:0] A, B;
