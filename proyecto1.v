@@ -73,11 +73,11 @@ module FullAdder_32b (a, b, c_in, s, c_out, sig_Z, sig_O);
     // por tanto, la señal C es equivalente a c_out
 
     // para comprobar que el resultado es cero, se tiene que todos los bits de resultado deben ser 0
-    // a' * b' * c' * ...* c_out' => (a + b + c + ... + c_out)' (NOR)
+    // a' * b' * c' * ... => (a + b + c + ... )' (NOR)
     nor #(3) g_nor1(
         sig_Z,
         s[31], s[30], s[29], s[28], s[27], s[26], s[25], s[26], s[27], s[26], s[25], s[24], s[23], s[22], s[21], s[20], s[19],
-        s[18], s[17], s[16], s[15], s[14], s[13], s[12], s[11], s[10], s[9], s[8], s[7], s[6], s[5], s[4], s[3], s[2], s[1], s[0], c_out
+        s[18], s[17], s[16], s[15], s[14], s[13], s[12], s[11], s[10], s[9], s[8], s[7], s[6], s[5], s[4], s[3], s[2], s[1], s[0]
     );
 
     // TODO: O_out
