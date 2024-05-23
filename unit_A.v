@@ -1,5 +1,90 @@
 `timescale 100ps / 100ps
 
+module unit_A (a, b, f, s, c_out);
+    input [31:0] a, b;
+    input [3:0] f;
+    output [31:0] s;
+    output c_out;
+    wire [31:0] a_FA, b_FA;
+    wire c_in_inicial, not_f1;
+
+    // cada bit de a va con un and de él y ¬f1
+    not #(2) not_g1(not_f1, f[1]);
+    and #(2) and_g31(a_FA[31], a[31], not_f1);
+    and #(2) and_g30(a_FA[30], a[30], not_f1);
+    and #(2) and_g29(a_FA[29], a[29], not_f1);
+    and #(2) and_g28(a_FA[28], a[28], not_f1);
+    and #(2) and_g27(a_FA[27], a[27], not_f1);
+    and #(2) and_g26(a_FA[26], a[26], not_f1);
+    and #(2) and_g25(a_FA[25], a[25], not_f1);
+    and #(2) and_g24(a_FA[24], a[24], not_f1);
+    and #(2) and_g23(a_FA[23], a[23], not_f1);
+    and #(2) and_g22(a_FA[22], a[22], not_f1);
+    and #(2) and_g21(a_FA[21], a[21], not_f1);
+    and #(2) and_g20(a_FA[20], a[20], not_f1);
+    and #(2) and_g19(a_FA[19], a[19], not_f1);
+    and #(2) and_g18(a_FA[18], a[18], not_f1);
+    and #(2) and_g17(a_FA[17], a[17], not_f1);
+    and #(2) and_g16(a_FA[16], a[16], not_f1);
+    and #(2) and_g15(a_FA[15], a[15], not_f1);
+    and #(2) and_g14(a_FA[14], a[14], not_f1);
+    and #(2) and_g13(a_FA[13], a[13], not_f1);
+    and #(2) and_g12(a_FA[12], a[12], not_f1);
+    and #(2) and_g11(a_FA[11], a[11], not_f1);
+    and #(2) and_g10(a_FA[10], a[10], not_f1);
+    and #(2) and_g09(a_FA[9], a[9], not_f1);
+    and #(2) and_g08(a_FA[8], a[8], not_f1);
+    and #(2) and_g07(a_FA[7], a[7], not_f1);
+    and #(2) and_g06(a_FA[6], a[6], not_f1);
+    and #(2) and_g05(a_FA[5], a[5], not_f1);
+    and #(2) and_g04(a_FA[4], a[4], not_f1);
+    and #(2) and_g03(a_FA[3], a[3], not_f1);
+    and #(2) and_g02(a_FA[2], a[2], not_f1);
+    and #(2) and_g01(a_FA[1], a[1], not_f1);
+    and #(2) and_g00(a_FA[0], a[0], not_f1);
+
+    // cada bit de b va con un xor de él, f1 y f0
+    xor #(3) xor_g31(b_FA[31], b[31], f[1], f[0]);
+    xor #(3) xor_g30(b_FA[30], b[30], f[1], f[0]);
+    xor #(3) xor_g29(b_FA[29], b[29], f[1], f[0]);
+    xor #(3) xor_g28(b_FA[28], b[28], f[1], f[0]);
+    xor #(3) xor_g27(b_FA[27], b[27], f[1], f[0]);
+    xor #(3) xor_g26(b_FA[26], b[26], f[1], f[0]);
+    xor #(3) xor_g25(b_FA[25], b[25], f[1], f[0]);
+    xor #(3) xor_g24(b_FA[24], b[24], f[1], f[0]);
+    xor #(3) xor_g23(b_FA[23], b[23], f[1], f[0]);
+    xor #(3) xor_g22(b_FA[22], b[22], f[1], f[0]);
+    xor #(3) xor_g21(b_FA[21], b[21], f[1], f[0]);
+    xor #(3) xor_g20(b_FA[20], b[20], f[1], f[0]);
+    xor #(3) xor_g19(b_FA[19], b[19], f[1], f[0]);
+    xor #(3) xor_g18(b_FA[18], b[18], f[1], f[0]);
+    xor #(3) xor_g17(b_FA[17], b[17], f[1], f[0]);
+    xor #(3) xor_g16(b_FA[16], b[16], f[1], f[0]);
+    xor #(3) xor_g15(b_FA[15], b[15], f[1], f[0]);
+    xor #(3) xor_g14(b_FA[14], b[14], f[1], f[0]);
+    xor #(3) xor_g13(b_FA[13], b[13], f[1], f[0]);
+    xor #(3) xor_g12(b_FA[12], b[12], f[1], f[0]);
+    xor #(3) xor_g11(b_FA[11], b[11], f[1], f[0]);
+    xor #(3) xor_g10(b_FA[10], b[10], f[1], f[0]);
+    xor #(3) xor_g09(b_FA[9], b[9], f[1], f[0]);
+    xor #(3) xor_g08(b_FA[8], b[8], f[1], f[0]);
+    xor #(3) xor_g07(b_FA[7], b[7], f[1], f[0]);
+    xor #(3) xor_g06(b_FA[6], b[6], f[1], f[0]);
+    xor #(3) xor_g05(b_FA[5], b[5], f[1], f[0]);
+    xor #(3) xor_g04(b_FA[4], b[4], f[1], f[0]);
+    xor #(3) xor_g03(b_FA[3], b[3], f[1], f[0]);
+    xor #(3) xor_g02(b_FA[2], b[2], f[1], f[0]);
+    xor #(3) xor_g01(b_FA[1], b[1], f[1], f[0]);
+    xor #(3) xor_g00(b_FA[0], b[0], f[1], f[0]);
+    
+
+    // el c_in del primer FullAdder es un or de f1 y f0
+    or #(2) or_g1(c_in_inicial, f[1], f[0]);
+
+    // llamar al full adder con los valores modificados
+    FullAdder_32b FA_32b(a_FA, b_FA, c_in_inicial, s, c_out);
+endmodule
+
 module FullAdder (a, b, c_in, c_out, s);
     input a, b, c_in;
     output c_out, s;
