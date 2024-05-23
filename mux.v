@@ -1,3 +1,5 @@
+`timescale 100ps / 100ps
+
 module mux4x1(input[3:0] a, 
               input[3:0] b, 
               input[3:0] c, 

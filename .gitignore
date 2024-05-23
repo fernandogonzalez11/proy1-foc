@@ -7,3 +7,5 @@
 !README.md
 # y cualquier archivo verilog
 !*.v
+# revisar dentro de directorios también
+!*/

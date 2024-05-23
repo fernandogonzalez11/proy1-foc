@@ -1,14 +1,16 @@
+`timescale 100ps / 100ps
+
 module FullAdder (a, b, c_in, c_out, s);
     input a, b, c_in;
     output c_out, s;
     wire c1, c2, c3, c4;
 
     // c_out
-    and #(2) g_and1(c1, a, c_in);
-    and #(2) g_and2(c2, b, c_in);
-    not #(1) g_not1(c3, c_in);
-    and #(2) g_and3(c4, a, b, c3);
-    or  #(1) g_or1(c_out, c1, c2, c4);
+    and g_and1(c1, a, c_in);
+    and g_and2(c2, b, c_in);
+    not g_not1(c3, c_in);
+    and g_and3(c4, a, b, c3);
+    or g_or1(c_out, c1, c2, c4);
 
     // s
     xor #(3) g_xor1(s, a, b, c_in);
@@ -21,7 +23,7 @@ señal Z: ¿el resultado fue cero?
 señal C: ¿el resultado produjo un acarreo no nulo?
 señal O: ¿el resultado produjo un overflow?
 */
-module FullAdder_32b (a, b, c_in, s, c_out, sig_Z, sig_O);
+module FullAdder_32b (a, b, c_in, s, c_out);
     input [31:0] a, b;
     input c_in;
     output [31:0] s;
@@ -74,80 +76,5 @@ module FullAdder_32b (a, b, c_in, s, c_out, sig_Z, sig_O);
 
     // para comprobar que el resultado es cero, se tiene que todos los bits de resultado deben ser 0
     // a' * b' * c' * ... => (a + b + c + ... )' (NOR)
-    nor #(3) g_nor1(
-        sig_Z,
-        s[31], s[30], s[29], s[28], s[27], s[26], s[25], s[26], s[27], s[26], s[25], s[24], s[23], s[22], s[21], s[20], s[19],
-        s[18], s[17], s[16], s[15], s[14], s[13], s[12], s[11], s[10], s[9], s[8], s[7], s[6], s[5], s[4], s[3], s[2], s[1], s[0]
-    );
 
-    // TODO: O_out
-
-endmodule
-
-module overflowR(a,b,s,sig_O);
-    input [31:0] a, b, s;
-    output sig_O;
-    wire c00,c01,c02,c03,c04;
-    //si a[31] y b[31] son 1, ambos A y B son negativos. Si se suman y da positivo (s[31] = 0) entonces hay overflow
-    //si a[31] y b[31] son 0, ambos A y B son positivos. Si se suman y da negativo (s[31] = 1) entonces hay overflow
-    //(a[31]*b[31]*s[31]')+(a[31]'*b[31]'*s[31])
-    not #(1) g_not2 (c00,s[31]);
-    and #(3) g_and4 (c01,a[31],b[31],c00);
-    not #(1) g_not3 (c02,a[31]);
-    not #(1) g_not4 (c03,b[31]);
-    and #(3) g_and5 (c04,s[31],c02,c03);
-    or  #(1) g_or2  (sig_O,c04,c01);
-endmodule
-
-
-module FullAdder_testbench;
-    reg [31:0] A, B;
-    reg c_in;
-    wire [31:0] S;
-    wire c_out, sig_Z, sig_O;
-
-    FullAdder_32b F0(A, B, c_in, S, c_out, sig_Z, sig_O);
-
-    initial begin
-        $dumpfile("fulladder-dump.vcd");
-        $dumpvars(0, FullAdder_testbench);
-
-        $display("A = 0, B = 0, c_in = 0");
-        A = 32'h00000000;
-        B = 32'h00000000;
-        c_in = 1'b0;
- 
-        #150;
-        $display("A = 1, B = 0, c_in = 0");
-        A = 32'h00000001;
-
-        #150;
-        $display("A = 1, B = 1, c_in = 0");
-        B = 32'h00000001;
-
-        #150;
-        $display("A = 1, B = 1, c_in = 1");
-        c_in = 1'b1;
-        
-        // test de negativo (señal N)
-        #150;
-        $display("A = 0, B = -1, c_in = 0");
-        A = 32'h00000000;
-        B = 32'hFFFFFFFF;
-        c_in = 1'b0;
-
-        // test de cero (señal Z)
-        #150;
-        $display("A = 0, B = 0, c_in = 0");
-        B = 32'h00000000;
-
-        // test de acarreo final (señal C)
-        #150;
-        $display ("A = 3, B = -1, c_in = 0");
-        A = 32'h00000003;
-        B = 32'hFFFFFFFF;
-
-        #150;
-        $finish;
-    end
 endmodule
