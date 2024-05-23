@@ -4,24 +4,18 @@ module unit_L(f1,f0,a,b,out);
     //32bits c/u (total 64)
     input [31:0] a,b;
     //Output 32bits
-    output wire [31:0] out;
+    output [31:0] out;
     //Wires   
     wire [31:0] xorOutput,orOutput,andOutput;
     //Gates AND-OR-XOR
-    andGate  andValue(.a(a),.b(b),.out(andOutput));
+    andGate  andValue(a, b, andOutput);
 
-    orGate  orValue(.a(a),.b(b),.out(orOutput));
+    orGate  orValue(a, b, orOutput);
 
-    xorGate  xorValue(.a(a),.b(b),.out(xorOutput));
+    xorGate  xorValue(a, b, xorOutput);
 
     //MUX selector
-    mux_unit_L  MUXUL(
-        .f1(f1),
-        .f0(f0),
-        .a(andOutput),
-        .b(orOutput),
-        .c(xorOutput),
-        .out(out));
+    mux_unit_L  MUXUL(f1, f0, andOutput, orOutput, xorOutput, out);
     
 endmodule
 
@@ -158,33 +152,17 @@ module mux_unit_L (f1,f0,a,b,c,out);
     not  (f0not,f0);
 
     //and1 -> andValue and not(f0) and f1
-    andGateMux  andValueSelected(
-        .value(a),
-        .f0(f0),
-        .f1(f1not),
-        .out(and1Out));
+    andGateMux  andValueSelected(a, f0, f1not, and1Out);
 
     //and2 -> orValue and f0 and not(f1)
-    andGateMux  orValueSelected(
-        .value(b),
-        .f0(f0not),
-        .f1(f1),
-        .out(and2Out));
+    andGateMux  orValueSelected(b, f0not, f1, and2Out);
 
     //and3 -> xorValue and f0 and f1
-    andGateMux  xorValueSelected(
-        .value(c),
-        .f0(f0),
-        .f1(f1),
-        .out(and3Out));
+    andGateMux  xorValueSelected(c, f0, f1, and3Out);
     
     //At this time, only one is diferent to 0
     //Or -> and1Out or and2Out or and3Out
-    orGateMux  orOut(
-        .and1(and1Out),
-        .and2(and2Out),
-        .and3(and3Out),
-        .out(out));
+    orGateMux  orOut(and1Out, and2Out, and3Out, out);
 endmodule 
 
 module andGateMux(value,f1,f0, out);
