@@ -1,14 +1,14 @@
 `timescale 100ps / 100ps
 
-module unit_L(f1,f0,a,b,out);
+module unit_L(a, b, f, out);
     // S (selection)
-    input  f1,f0;
+    input [3:0] f;
     //32bits c/u (total 64)
-    input [31:0] a,b;
+    input [31:0] a, b;
     //Output 32bits
     output [31:0] out;
     //Wires   
-    wire [31:0] xorOutput,orOutput,andOutput;
+    wire [31:0] xorOutput, orOutput, andOutput;
     //Gates AND-OR-XOR
     andGate andValue(a, b, andOutput);
 
@@ -17,13 +17,13 @@ module unit_L(f1,f0,a,b,out);
     xorGate  xorValue(a, b, xorOutput);
 
     //MUX selector
-    mux_unit_L  MUXUL(f1, f0, andOutput, orOutput, xorOutput, out);
+    mux_unit_L  MUXUL(f, andOutput, orOutput, xorOutput, out);
     
 endmodule
 
 
-module andGate(a,b,out);
-    input [31:0] a,b;
+module andGate(a, b, out);
+    input [31:0] a, b;
     output [31:0] out; 
     //Bit by bit
     and #(2) gate0(out[0], a[0], b[0]);
@@ -60,8 +60,8 @@ module andGate(a,b,out);
     and #(2) gate31(out[31], a[31], b[31]);
 endmodule
 
-module orGate(a,b,out);
-    input [31:0] a,b;
+module orGate(a, b, out);
+    input [31:0] a, b;
     output [31:0] out;
     //Bit by bit
     or #(1) gate0(out[0], a[0], b[0]);
@@ -98,8 +98,8 @@ module orGate(a,b,out);
     or #(1) gate31(out[31], a[31], b[31]);
 endmodule
 
-module xorGate(a,b,out);
-    input [31:0] a,b;
+module xorGate(a, b, out);
+    input [31:0] a, b;
     output [31:0] out;
     //Bit by bit
     xor #(3) gate0(out[0], a[0], b[0]);
@@ -138,8 +138,8 @@ endmodule
     
 // Check the drawing of the mux circuit 
 //mux selects one of the 3 results to send 
-module mux_unit_L (f1,f0,a,b,c,out);
-    input  f1,f0; // S (selection)
+module mux_unit_L (f, a, b, c, out);
+    input [3:0] f; // S (selection)
     input [31:0] a; // andOutput
     input [31:0] b; // orOutput
     input [31:0] c; // xorOutput
@@ -172,7 +172,7 @@ module andGateMux(value,f1,f0, out);
     input  f1,f0; 
     output wire [31:0] out;
 
-    and #(2) gate0(out[0], f1, f0,value[0]);
+    and #(2) gate0(out[0], f1, f0, value[0]);
     and #(2) gate1(out[1], f1, f0,value[1]);
     and #(2) gate2(out[2], f1, f0,value[2]);
     and #(2) gate3(out[3], f1, f0,value[3]);
@@ -206,8 +206,8 @@ module andGateMux(value,f1,f0, out);
     and #(2) gate31(out[31], f1, f0,value[31]);
 endmodule
 
-module orGateMux(and1,and2,and3,out);
-    input [31:0] and1,and2,and3;
+module orGateMux(and1, and2, and3, out);
+    input [31:0] and1, and2, and3;
     output wire [31:0] out;
 
     or #(1) gate0(out[0], and1[0], and2[0], and3[0]);
