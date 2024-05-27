@@ -1,14 +1,15 @@
 `timescale 100ps / 100ps
+`include "mux.v"
 
 module unit_L(a, b, f, out);
     // S (selection)
-    input [3:0] f;
+    input [1:0] f;
     //32bits c/u (total 64)
     input [31:0] a, b;
     //Output 32bits
     output [31:0] out;
     //Wires   
-    wire [31:0] xorOutput, orOutput, andOutput;
+    wire [31:0] xorOutput, orOutput, andOutput, unused;
     //Gates AND-OR-XOR
     andGate andValue(a, b, andOutput);
 
@@ -17,7 +18,7 @@ module unit_L(a, b, f, out);
     xorGate  xorValue(a, b, xorOutput);
 
     //MUX selector
-    mux_unit_L  MUXUL(f, andOutput, orOutput, xorOutput, out);
+    mux_4x1_32b MUXUL(f[1], f[0], unused, andOutput, orOutput, xorOutput, out);
     
 endmodule
 
@@ -134,112 +135,4 @@ module xorGate(a, b, out);
     xor #(3) gate29(out[29], a[29], b[29]);
     xor #(3) gate30(out[30], a[30], b[30]);
     xor #(3) gate31(out[31], a[31], b[31]);
-endmodule
-    
-// Check the drawing of the mux circuit 
-//mux selects one of the 3 results to send 
-module mux_unit_L (f, a, b, c, out);
-    input [3:0] f; // S (selection)
-    input [31:0] a; // andOutput
-    input [31:0] b; // orOutput
-    input [31:0] c; // xorOutput
-    output wire [31:0] out;
-
-    //wire
-    wire [31:0] and1Out, and2Out, and3Out; 
-    wire f1not,f0not;
-
-    //not (S)
-    not  (f1not,f1);
-    not  (f0not,f0);
-
-    //and1 -> andValue and not(f0) and f1
-    andGateMux  andValueSelected(a, f0, f1not, and1Out);
-
-    //and2 -> orValue and f0 and not(f1)
-    andGateMux  orValueSelected(b, f0not, f1, and2Out);
-
-    //and3 -> xorValue and f0 and f1
-    andGateMux  xorValueSelected(c, f0, f1, and3Out);
-    
-    //At this time, only one is diferent to 0
-    //Or -> and1Out or and2Out or and3Out
-    orGateMux  orOut(and1Out, and2Out, and3Out, out);
-endmodule 
-
-module andGateMux(value,f1,f0, out);
-    input [31:0] value; 
-    input  f1,f0; 
-    output wire [31:0] out;
-
-    and #(2) gate0(out[0], f1, f0, value[0]);
-    and #(2) gate1(out[1], f1, f0,value[1]);
-    and #(2) gate2(out[2], f1, f0,value[2]);
-    and #(2) gate3(out[3], f1, f0,value[3]);
-    and #(2) gate4(out[4], f1, f0,value[4]);
-    and #(2) gate5(out[5], f1, f0,value[5]);
-    and #(2) gate6(out[6], f1, f0,value[6]);
-    and #(2) gate7(out[7], f1, f0,value[7]);
-    and #(2) gate8(out[8], f1, f0,value[8]);
-    and #(2) gate9(out[9], f1, f0,value[9]);
-    and #(2) gate10(out[10], f1, f0,value[10]);
-    and #(2) gate11(out[11], f1, f0,value[11]);
-    and #(2) gate12(out[12], f1, f0,value[12]);
-    and #(2) gate13(out[13], f1, f0,value[13]);
-    and #(2) gate14(out[14], f1, f0,value[14]);
-    and #(2) gate15(out[15], f1, f0,value[15]);
-    and #(2) gate16(out[16], f1, f0,value[16]);
-    and #(2) gate17(out[17], f1, f0,value[17]);
-    and #(2) gate18(out[18], f1, f0,value[18]);
-    and #(2) gate19(out[19], f1, f0,value[19]);
-    and #(2) gate20(out[20], f1, f0,value[20]);
-    and #(2) gate21(out[21], f1, f0,value[21]);
-    and #(2) gate22(out[22], f1, f0,value[22]);
-    and #(2) gate23(out[23], f1, f0,value[23]);
-    and #(2) gate24(out[24], f1, f0,value[24]);
-    and #(2) gate25(out[25], f1, f0,value[25]);
-    and #(2) gate26(out[26], f1, f0,value[26]);
-    and #(2) gate27(out[27], f1, f0,value[27]);
-    and #(2) gate28(out[28], f1, f0,value[28]);
-    and #(2) gate29(out[29], f1, f0,value[29]);
-    and #(2) gate30(out[30], f1, f0,value[30]);
-    and #(2) gate31(out[31], f1, f0,value[31]);
-endmodule
-
-module orGateMux(and1, and2, and3, out);
-    input [31:0] and1, and2, and3;
-    output wire [31:0] out;
-
-    or #(1) gate0(out[0], and1[0], and2[0], and3[0]);
-    or #(1) gate1(out[1], and1[1], and2[1], and3[1]);
-    or #(1) gate2(out[2], and1[2], and2[2], and3[2]);
-    or #(1) gate3(out[3], and1[3], and2[3], and3[3]);
-    or #(1) gate4(out[4], and1[4], and2[4], and3[4]);
-    or #(1) gate5(out[5], and1[5], and2[5], and3[5]);
-    or #(1) gate6(out[6], and1[6], and2[6], and3[6]);
-    or #(1) gate7(out[7], and1[7], and2[7], and3[7]);
-    or #(1) gate8(out[8], and1[8], and2[8], and3[8]);
-    or #(1) gate9(out[9], and1[9], and2[9], and3[9]);
-    or #(1) gate10(out[10], and1[10], and2[10], and3[10]);
-    or #(1) gate11(out[11], and1[11], and2[11], and3[11]);
-    or #(1) gate12(out[12], and1[12], and2[12], and3[12]);
-    or #(1) gate13(out[13], and1[13], and2[13], and3[13]);
-    or #(1) gate14(out[14], and1[14], and2[14], and3[14]);
-    or #(1) gate15(out[15], and1[15], and2[15], and3[15]);
-    or #(1) gate16(out[16], and1[16], and2[16], and3[16]);
-    or #(1) gate17(out[17], and1[17], and2[17], and3[17]);
-    or #(1) gate18(out[18], and1[18], and2[18], and3[18]);
-    or #(1) gate19(out[19], and1[19], and2[19], and3[19]);
-    or #(1) gate20(out[20], and1[20], and2[20], and3[20]);
-    or #(1) gate21(out[21], and1[21], and2[21], and3[21]);
-    or #(1) gate22(out[22], and1[22], and2[22], and3[22]);
-    or #(1) gate23(out[23], and1[23], and2[23], and3[23]);
-    or #(1) gate24(out[24], and1[24], and2[24], and3[24]);
-    or #(1) gate25(out[25], and1[25], and2[25], and3[25]);
-    or #(1) gate26(out[26], and1[26], and2[26], and3[26]);
-    or #(1) gate27(out[27], and1[27], and2[27], and3[27]);
-    or #(1) gate28(out[28], and1[28], and2[28], and3[28]);
-    or #(1) gate29(out[29], and1[29], and2[29], and3[29]);
-    or #(1) gate30(out[30], and1[30], and2[30], and3[30]);
-    or #(1) gate31(out[31], and1[31], and2[31], and3[31]);
 endmodule

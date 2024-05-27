@@ -2,14 +2,14 @@
 
 module unit_A (a, b, f, s, c_out, O);
     input [31:0] a, b;
-    input [3:0] f;
+    input [1:0] f;
     output [31:0] s;
     output c_out, O;
     wire [31:0] a_FA, b_FA;
     wire c_in_inicial, not_f1;
 
     // cada bit de a va con un and de él y ¬f1
-    not #(2) not_g1(not_f1, f[1]);
+    not #(2) not_g1(not_f1, f1);
     and #(2) and_g31(a_FA[31], a[31], not_f1);
     and #(2) and_g30(a_FA[30], a[30], not_f1);
     and #(2) and_g29(a_FA[29], a[29], not_f1);

@@ -3,7 +3,7 @@
 
 module unit_A_testbench;
     reg [31:0] A, B;
-    reg [3:0] f;
+    reg [1:0] f;
     wire [31:0] S;
     wire c_out, O;
 
@@ -14,37 +14,37 @@ module unit_A_testbench;
         $dumpvars(0, unit_A_testbench);
 
         // pruebas de operaciones y carry out
-        $display("A = 6, B = 6, f = 0100 (sum)");
+        $display("A = 6, B = 6, f = 00 (sum)");
         A = 32'h00000006;
         B = 32'h00000006;
-        f = 4'b0100;
+        f = 4'b00;
 
         #200;
-        $display("A = 6, B = 6, f = 0101 (sub) -> c_out = 1");
-        f = 4'b0101;
+        $display("A = 6, B = 6, f = 01 (sub) -> c_out = 1");
+        f = 4'b01;
 
         #200
-        $display("A = 0, B = 6, f = 0110 (ainv)");
+        $display("A = 0, B = 6, f = 10 (ainv)");
         A = 32'h00000000;
-        f = 4'b0110;
+        f = 4'b10;
 
         #200
-        $display("A = 0, B = 6, f = 0111 (inc)");
-        f = 4'b0111;
+        $display("A = 0, B = 6, f = 11 (inc)");
+        f = 4'b11;
 
         // pruebas de overflow
         #200
-        $display("A = +MAX, B = 1, f = 0100 (sum) -> overflow");
+        $display("A = +MAX, B = 1, f = 00 (sum) -> overflow");
         A = 32'h7FFFFFFF;
         B = 32'h00000001;
-        f = 4'b0100;
+        f = 4'b00;
 
         #200
-        $display("A = +MAX, B = 1, f = 0101 (sub)");
-        f = 4'b0101;
+        $display("A = +MAX, B = 1, f = 01 (sub)");
+        f = 4'b01;
 
         #200
-        $display("A = +MAX, B = -1, f = 0101 (sub) -> overflow");
+        $display("A = +MAX, B = -1, f = 01 (sub) -> overflow");
         B = 32'hFFFFFFFF;
 
         #200
