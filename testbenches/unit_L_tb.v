@@ -9,7 +9,7 @@ module unit_L_testbench;
     wire [31:0] out;
 
     // output unit_L
-    unit_L output_unit_L(S[1], S[0], a, b, out);
+    unit_L output_unit_L(a, b, S, out);
 
     initial begin
         $dumpfile("out/unitL-dump.vcd");

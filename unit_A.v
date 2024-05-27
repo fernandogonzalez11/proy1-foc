@@ -1,15 +1,15 @@
 `timescale 100ps / 100ps
 
-module unit_A (a, b, f, s, c_out);
+module unit_A (a, b, f, s, c_out, O);
     input [31:0] a, b;
-    input [3:0] f;
+    input [1:0] f;
     output [31:0] s;
-    output c_out;
+    output c_out, O;
     wire [31:0] a_FA, b_FA;
     wire c_in_inicial, not_f1;
 
     // cada bit de a va con un and de él y ¬f1
-    not #(2) not_g1(not_f1, f[1]);
+    not #(2) not_g1(not_f1, f1);
     and #(2) and_g31(a_FA[31], a[31], not_f1);
     and #(2) and_g30(a_FA[30], a[30], not_f1);
     and #(2) and_g29(a_FA[29], a[29], not_f1);
@@ -83,6 +83,9 @@ module unit_A (a, b, f, s, c_out);
 
     // llamar al full adder con los valores modificados
     FullAdder_32b FA_32b(a_FA, b_FA, c_in_inicial, s, c_out);
+
+    // manejo de overflow
+    Overflow sig_O(a_FA[31], b_FA[31], s[31], O);
 endmodule
 
 module FullAdder (a, b, c_in, c_out, s);
@@ -91,11 +94,11 @@ module FullAdder (a, b, c_in, c_out, s);
     wire c1, c2, c3, c4;
 
     // c_out
-    and g_and1(c1, a, c_in);
-    and g_and2(c2, b, c_in);
-    not g_not1(c3, c_in);
-    and g_and3(c4, a, b, c3);
-    or g_or1(c_out, c1, c2, c4);
+    and #(2) g_and1(c1, a, c_in);
+    and #(2) g_and2(c2, b, c_in);
+    not #(2) g_not1(c3, c_in);
+    and #(2) g_and3(c4, a, b, c3);
+    or  #(1) g_or1(c_out, c1, c2, c4);
 
     // s
     xor #(3) g_xor1(s, a, b, c_in);
@@ -162,4 +165,19 @@ module FullAdder_32b (a, b, c_in, s, c_out);
     // para comprobar que el resultado es cero, se tiene que todos los bits de resultado deben ser 0
     // a' * b' * c' * ... => (a + b + c + ... )' (NOR)
 
+endmodule
+
+// recibe los bits más significativos del primer y segundo operando que irán como entradas al Full Adder
+module Overflow (a_FA, b_FA, s, O);
+    input a_FA, b_FA, s;
+    output O;
+    wire not_a, not_b, not_s, m1, m6;
+
+    not #(2) not_g1(not_a, a_FA);
+    not #(2) not_g2(not_b, b_FA);
+    not #(2) not_g3(not_s, s);
+
+    and #(3) and_g1(m1, not_a, not_b, s);
+    and #(3) and_g2(m6, a_FA, b_FA, not_s);
+    or  #(1) or_g1(O, m1, m6);
 endmodule
