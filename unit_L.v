@@ -18,7 +18,7 @@ module unit_L(a, b, f, out);
     xorGate  xorValue(a, b, xorOutput);
 
     //MUX selector
-    mux_4x1_32b MUXUL(f[1], f[0], unused, andOutput, orOutput, xorOutput, out);
+    mux_4x1_32b MUXUL(f, unused, andOutput, orOutput, xorOutput, out);
     
 endmodule
 
