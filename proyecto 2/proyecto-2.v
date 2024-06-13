@@ -20,6 +20,16 @@ module FlipFlopRS(R, S, clk, enable, Q, Q_comp);
     nor #(1) g2(Q_comp, S_clk, Q);
 endmodule
 
+module FlipFlopD (D,clk,enable,Q,Q_comp)
+    input D, clk, enable;
+    output Q, Q_comp;
+    wire D_comp;
+
+    not #(1) not1(D_comp,D)
+
+    FlipFlopRS FFRS(D,D_comp,clk,enable,Q, Q_comp)
+endmodule
+
 module clk_testbench;
     initial begin
         $dumpfile("testbench-dump.vcd");
