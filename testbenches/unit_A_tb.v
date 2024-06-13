@@ -17,35 +17,40 @@ module unit_A_testbench;
         $display("A = 6, B = 6, f = 00 (sum)");
         A = 32'h00000006;
         B = 32'h00000006;
-        f = 4'b00;
+        f = 2'b00;
 
         #200;
         $display("A = 6, B = 6, f = 01 (sub) -> c_out = 1");
-        f = 4'b01;
+        f = 2'b01;
 
         #200
         $display("A = 0, B = 6, f = 10 (ainv)");
         A = 32'h00000000;
-        f = 4'b10;
+        f = 2'b10;
 
         #200
         $display("A = 0, B = 6, f = 11 (inc)");
-        f = 4'b11;
+        f = 2'b11;
 
         // pruebas de overflow
         #200
         $display("A = +MAX, B = 1, f = 00 (sum) -> overflow");
         A = 32'h7FFFFFFF;
         B = 32'h00000001;
-        f = 4'b00;
+        f = 2'b00;
 
         #200
         $display("A = +MAX, B = 1, f = 01 (sub)");
-        f = 4'b01;
+        f = 2'b01;
 
         #200
         $display("A = +MAX, B = -1, f = 01 (sub) -> overflow");
         B = 32'hFFFFFFFF;
+
+        #200
+        $display("A = +MAX, B = -MAX, f = 10 (ainv) -> overflow");
+        B = 32'h80000000;
+        f = 2'b10;
 
         #200
         $finish;
