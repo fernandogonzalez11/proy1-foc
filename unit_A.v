@@ -1,5 +1,6 @@
 `timescale 100ps / 100ps
 
+// delay máximo: 400 ps + 16000 ps + 500 ps = 16900 ps = 16.9 ns
 module unit_A (a, b, f, s, c_out, O);
     input [31:0] a, b;
     input [1:0] f;
@@ -88,6 +89,7 @@ module unit_A (a, b, f, s, c_out, O);
     Overflow sig_O(a_FA[31], b_FA[31], s[31], O);
 endmodule
 
+// delay máximo: 500 ps
 module FullAdder (a, b, c_in, c_out, s);
     input a, b, c_in;
     output c_out, s;
@@ -110,6 +112,8 @@ señal N: ¿el resultado fue negativo?
 señal Z: ¿el resultado fue cero?
 señal C: ¿el resultado produjo un acarreo no nulo?
 señal O: ¿el resultado produjo un overflow?
+
+delay máximo: 500 ps * 32 = 16 ns
 */
 module FullAdder_32b (a, b, c_in, s, c_out);
     input [31:0] a, b;
@@ -168,6 +172,7 @@ module FullAdder_32b (a, b, c_in, s, c_out);
 endmodule
 
 // recibe los bits más significativos del primer y segundo operando que irán como entradas al Full Adder
+// delay máximo: 500 ps
 module Overflow (a_FA, b_FA, s, O);
     input a_FA, b_FA, s;
     output O;
@@ -177,7 +182,7 @@ module Overflow (a_FA, b_FA, s, O);
     not #(2) not_g2(not_b, b_FA);
     not #(2) not_g3(not_s, s);
 
-    and #(3) and_g1(m1, not_a, not_b, s);
-    and #(3) and_g2(m6, a_FA, b_FA, not_s);
+    and #(2) and_g1(m1, not_a, not_b, s);
+    and #(2) and_g2(m6, a_FA, b_FA, not_s);
     or  #(1) or_g1(O, m1, m6);
 endmodule

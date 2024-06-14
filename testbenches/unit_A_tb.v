@@ -10,7 +10,7 @@ module unit_A_testbench;
     unit_A uA(A, B, f, S, c_out, O);
 
     initial begin
-        $dumpfile("out/unit-A-dump.vcd");
+        $dumpfile("out/unitA-dump.vcd");
         $dumpvars(0, unit_A_testbench);
 
         // pruebas de operaciones y carry out
