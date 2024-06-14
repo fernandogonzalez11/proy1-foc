@@ -1,6 +1,7 @@
 `timescale 100ps / 100ps
 `include "mux.v"
 
+// delay: 300 ps + 500 ps: 700 ps
 module unit_L(a, b, f, out);
     // S (selection)
     input [1:0] f;

@@ -1,5 +1,6 @@
 `timescale 100ps / 100ps
 
+// delay máximo: 500 ps
 module mux_4x1(s, a, b, c, d, Y);
     input [1:0] s;
     input a, b, c, d;
@@ -18,6 +19,7 @@ module mux_4x1(s, a, b, c, d, Y);
 
 endmodule
 
+// delay máximo: 500 ps 
 module mux_4x1_32b (s, A, B, C, D, Y);
     input [1:0] s;
     input [31:0] A, B, C, D;
