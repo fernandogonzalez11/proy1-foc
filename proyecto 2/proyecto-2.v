@@ -13,8 +13,8 @@ module FlipFlopRS(R, S, clk, enable, Q, Q_comp);
     output Q, Q_comp;
     wire R_clk, S_clk;
 
-    and #(3) g_clk1(R_clk, R, clk, enable);
-    and #(3) g_clk2(S_clk, S, clk, enable);
+    and #(2) g_clk1(R_clk, R, clk, enable);
+    and #(2) g_clk2(S_clk, S, clk, enable);
 
     nor #(1) g1(Q, R_clk, Q_comp);
     nor #(1) g2(Q_comp, S_clk, Q);
