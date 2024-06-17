@@ -26,14 +26,14 @@ module tb_Register32bits;
         D = 32'b11111111111111111111111111111111; 
         $display("Nuevo valor: D = %b", D);
         enable = 1;
-        #18//1200ps, clock=1
+        #20//1200ps, clock=1
         $display(" Q = %b,  Q_comp= %b, enable = %b, clk = %b\n", Q, Q_comp, enable,clk);
         
         
         
         D = 32'b10000000000000000000100000000001;
         $display("Nuevo valor: D = %b", D);
-        #18//1200ps
+        #20//1200ps
         $display("Q = %b,  Q_comp= %b, enable = %b, clk = %b\n", Q, Q_comp, enable,clk);
 
 
@@ -41,20 +41,20 @@ module tb_Register32bits;
         enable = 0;
         D = 32'b10101010101010101010101010101010; // Cambia el valor de entrada D
         $display("Nuevo valor: D = %b", D);
-        #18//1200ps, clock=1
+        #20//1200ps, clock=1
         $display("Q = %b,  Q_comp= %b, enable = %b, clk = %b\n", Q, Q_comp, enable,clk);
         
         
         enable = 1;
         D = 32'b1000000000111111111100000000101; // Cambia el valor de entrada D
         $display("Nuevo valor: D = %b", D);
-        #9//600ps, clk=0
+        #10//600ps, clk=0
         $display("Q = %b,  Q_comp= %b, enable = %b, clk = %b\n", Q, Q_comp, enable,clk);
 
-        #9//600ps, clock=1
+        #10//600ps, clock=1
         $display("Q = %b,  Q_comp= %b, enable = %b, clk = %b", Q, Q_comp, enable,clk);
 
-        #36
+        #40
         $finish;
     end
 endmodule

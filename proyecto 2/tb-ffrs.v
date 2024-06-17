@@ -16,33 +16,33 @@ module FFRS_testbench;
         R = 0;
         S = 1;
 
-        #18
+        #20
         enable = 1;
 
-        #18
+        #20
         enable = 0;
 
-        #18
+        #20
         R = 0;
         S = 0;
 
-        #18
+        #20
         enable = 1;
 
-        #18
+        #20
         enable = 0;
 
-        #18
+        #20
         R = 1;
         S = 0;
 
-        #18
+        #20
         enable = 1;
 
-        #18
+        #20
         enable = 0;
 
-        #36
+        #40
         $finish;
     end
 endmodule
