@@ -10,7 +10,7 @@ module FFRS_testbench;
 
     initial begin
         $dumpfile("ffrs-dump.vcd");
-        $dumpvars(1, FFRS_testbench);
+        $dumpvars(0, FFRS_testbench);
 
         enable = 0;
         R = 0;
