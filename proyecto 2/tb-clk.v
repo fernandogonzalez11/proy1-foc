@@ -5,7 +5,7 @@ module clk_testbench;
         $dumpfile("clk-dump.vcd");
         $dumpvars(1, Clock);
 
-        #100
+        #70
         $finish;
     end
 endmodule
