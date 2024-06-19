@@ -5,7 +5,7 @@ module Clock(clk);
     
     initial clk = 0;
 
-    always #10 clk = ~clk;
+    always #7 clk = ~clk;
 endmodule
 
 module FlipFlopRS(R, S, clk, enable, Q, Q_comp);
